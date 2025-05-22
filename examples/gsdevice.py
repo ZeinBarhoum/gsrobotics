@@ -23,7 +23,7 @@ def get_camera_id(camera_name):
             with open(real_file, "rt") as name_file:
                 name = name_file.read().rstrip()
             if camera_name in name:
-                cam_num = int(re.search("\d+$", file).group(0))
+                cam_num = int(re.search(r"\d+$", file).group(0))
                 found = "FOUND!"
             else:
                 found = "      "
