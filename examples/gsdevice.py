@@ -13,18 +13,33 @@ def warp_perspective(img, corners, output_sz):
     result = cv2.warpPerspective(img, matrix, (WARP_W, WARP_H))
     return result
 
+def check_camera(camera_id):
+    camera = cv2.VideoCapture(camera_id)
+    if not camera.isOpened():
+        return False
+    else:
+        is_reading, img = camera.read()
+        if not is_reading:
+            return False
+    return True
+
 def get_camera_id(camera_name):
     cam_num = None
     if os.name == 'nt':
         cam_num = find_cameras_windows(camera_name)
     else:
+        from linuxpy.video.device import Device, Capability
         for file in os.listdir("/sys/class/video4linux"):
             real_file = os.path.realpath("/sys/class/video4linux/" + file + "/name")
             with open(real_file, "rt") as name_file:
                 name = name_file.read().rstrip()
             if camera_name in name:
-                cam_num = int(re.search(r"\d+$", file).group(0))
-                found = "FOUND!"
+                cam_id = int(re.search(r"\d+$", file).group(0))
+                if check_camera(cam_id):
+                    cam_num = cam_id
+                    found = "FOUND!"
+                else:
+                    found = "      "
             else:
                 found = "      "
             print("{} {} -> {}".format(found, file, name))
