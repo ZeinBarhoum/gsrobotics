@@ -3,6 +3,7 @@ import cv2
 import time
 from threading import Thread
 from gelsight import gsdevice
+import gelsight
 
 class GsVideo:
     """
@@ -71,7 +72,7 @@ def compute_actual_frame_rate(video_capture, num_frames=500):
 if __name__ == '__main__':
 
     # You may need to change vid
-    vid = 2
+    vid = gsdevice.get_camera_id('GelSight Mini')
     video = GsVideo(vid)
 
     video.start()

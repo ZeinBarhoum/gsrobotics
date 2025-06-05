@@ -1,7 +1,6 @@
 import sys
-import time
 import cv2
-import gsdevice
+from gelsight import gsdevice
 
 def main(argv):
 

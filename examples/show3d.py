@@ -1,9 +1,9 @@
 import sys
-import numpy as np
 import cv2
 import os
-import gsdevice
-import gs3drecon
+from pathlib import Path
+from gelsight import gsdevice
+from gelsight import gs3drecon
 
 
 def main(argv):
@@ -22,7 +22,7 @@ def main(argv):
     # the device ID can change after unplugging and changing the usb ports.
     # on linux run, v4l2-ctl --list-devices, in the terminal to get the device ID for camera
     dev = gsdevice.Camera("GelSight Mini")
-    net_file_path = 'nnmini.pt'
+    net_file_path = Path(__file__).parent / 'nnmini.pt'
 
     dev.connect()
 

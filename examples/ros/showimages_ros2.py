@@ -5,6 +5,7 @@ import rclpy
 from rclpy.node import Node  # Enables the use of rclpy's Node class
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
+from gelsight import gsdevice
 
 
 class CameraPublisher(Node):
@@ -34,7 +35,7 @@ class CameraPublisher(Node):
         self.timer = self.create_timer(timer_period, self.get_image)
         self.i = 0  # Initialize a counter variable
 
-        self.vs0 = WebcamVideoStream(src=2).start()
+        self.vs0 = WebcamVideoStream(src=gsdevice.get_camera_id('Gelsight Mini')).start()
         self.cvbridge = CvBridge()
 
     def get_image(self):
